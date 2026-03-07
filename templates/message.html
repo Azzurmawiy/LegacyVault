@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Page</title>
+</head>
+<body>
+    <h1>Message Page</h1>
+     {% extends 'base.html' %}
+{% block content %}
+<div class="mb-3">
+  <div class="page-title">Scheduled Messages</div>
+  <div class="page-subtitle">Messages that will be revealed in the future.</div>
+</div>
+<div class="row g-4">
+  <div class="col-lg-5">
+    <div class="card p-4">
+      <h5>Create Message</h5>
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.title }}
+        <div class="mb-3"></div>
+        {{ form.content }}
+        <div class="mb-3"></div>
+        {{ form.release_date }}
+        <div class="mb-3"></div>
+        {{ form.recipient }}
+        <div class="mb-3"></div>
+        <button class="btn btn-cocoa w-100 big-action">Schedule</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-lg-7">
+    <div class="card p-4 mb-4">
+      <h5>🔒 Scheduled</h5>
+      {% for msg in scheduled %}
+        <div class="border rounded-4 p-3 mb-3">
+          <div class="fw-bold">{{ msg.title }}</div>
+          <div class="page-subtitle">Releases: {{ msg.release_date }}</div>
+        </div>
+      {% empty %}
+        <div class="page-subtitle">No scheduled messages.</div>
+      {% endfor %}
+    </div>
+    <div class="card p-4">
+      <h5>🔓 Released</h5>
+      {% for msg in released %}
+        <div class="border rounded-4 p-3 mb-3">
+          <div class="fw-bold">{{ msg.title }}</div>
+          <div class="page-subtitle">{{ msg.content }}</div>
+        </div>
+      {% empty %}
+        <div class="page-subtitle">No released messages yet.</div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+<a href="/">Back Home</a>
+</body>
+</html>

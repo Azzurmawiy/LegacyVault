@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family page</title>
+</head>
+<body>
+    <h1>Family Page</h1>
+{% extends 'base.html' %}
+{% block content %}
+<div class="mb-3">
+  <div class="page-title">Family & Heirs</div>
+  <div class="page-subtitle">Manage trusted people who may access your legacy.</div>
+</div>
+<div class="row g-4">
+  <div class="col-lg-5">
+    <div class="card p-4">
+      <h5 class="mb-3">Add Family Member</h5>
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.name }}
+        <div class="mb-3"></div>
+        {{ form.relation }}
+        <div class="mb-3"></div>
+        {{ form.email }}
+        <div class="mb-3"></div>
+        <button class="btn btn-cocoa w-100 big-action" type="submit">Add Member</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-lg-7">
+    <div class="card p-4">
+      <h5>Your Family Members</h5>
+      <div class="mt-3">
+        {% for member in members %}
+          <div class="border rounded-4 p-3 mb-3" style="border-color: var(--border); background:#FFF;">
+            <div class="fw-bold">{{ member.name }}</div>
+            <div class="page-subtitle">{{ member.relation }}</div>
+            <div class="page-subtitle">{{ member.email }}</div>
+          </div>
+        {% empty %}
+          <div class="page-subtitle">No family members added yet.</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+<a href="/">Back Home</a>
+</body>
+</html>
