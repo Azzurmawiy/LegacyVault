@@ -36,17 +36,14 @@ class MessageForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control soft-input', 'placeholder': 'Message title'}),
             'content': forms.Textarea(attrs={'class': 'form-control soft-input', 'rows': 4, 'placeholder': 'Write your message...'}),
-            'released_date': forms.DateTimeInput(attrs={'class': 'form-control soft-input', 'type': 'datetime-local'}),
-            'type': 'datetime-local',
-            'class': 'form-control soft-input',
-            'recipient': forms.Select(attrs={'class': 'form-control soft-input'})
+            'send_date': forms.DateTimeInput(attrs={'class': 'form-control soft-input', 'type': 'datetime-local'}),
         }
 
-    def clean_released_date(self):
-        released_date = self.cleaned_data.get('released_date')
-        if released_date and released_date < timezone.now():
-            raise forms.ValidationError("Release date cannot be in the past.")
-        return released_date
+    def clean_send_date(self):
+        send_date = self.cleaned_data.get('send_date')
+        if send_date and send_date < timezone.now():
+            raise forms.ValidationError("Send date cannot be in the past.")
+        return send_date
 
 class DocumentForm(forms.ModelForm):
     class Meta:

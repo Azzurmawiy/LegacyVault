@@ -88,8 +88,8 @@ def message(request):
 
     messages_qs = Message.objects.filter(owner=request.user).order_by("send_date")
 
-    scheduled = [m for m in messages_qs if not m.is_released()]
-    released = [m for m in messages_qs if m.is_released()]
+    scheduled = [m for m in messages_qs if not m.is_released]
+    released = [m for m in messages_qs if m.is_released]
     return render(request, "message.html", {"form": form, "scheduled": scheduled, "released": released})
 
 def family(request):
