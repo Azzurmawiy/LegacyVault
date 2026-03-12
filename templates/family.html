@@ -1,12 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Family page</title>
-</head>
-<body>
-    <h1>Family Page</h1>
 {% extends 'base.html' %}
 {% block content %}
 <div class="mb-3">
@@ -38,6 +29,24 @@
             <div class="fw-bold">{{ member.name }}</div>
             <div class="page-subtitle">{{ member.relation }}</div>
             <div class="page-subtitle">{{ member.email }}</div>
+            <div class="page-subtitle mt-1" style="font-size: 14px;">
+              {% if member.claimed_user %}
+                Linked to user: <strong>{{ member.claimed_user.username }}</strong>
+                · Messages from you to this heir:
+                {{ member.claimed_user.received_legacy_messages.all|length }}
+              {% else %}
+                Not claimed yet.
+              {% endif %}
+            </div>
+            <div class="mt-2">
+              <small class="page-subtitle d-block mb-1">
+                Invite link (share with them):
+              </small>
+              <code class="small">
+                {% url 'heir_claim' member.invite_token as invite_url %}
+                {{ request.scheme }}://{{ request.get_host }}{{ invite_url }}
+              </code>
+            </div>
           </div>
         {% empty %}
           <div class="page-subtitle">No family members added yet.</div>
@@ -47,7 +56,3 @@
   </div>
 </div>
 {% endblock %}
-
-<a href="/">Back Home</a>
-</body>
-</html>

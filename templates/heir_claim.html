@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="mb-3">
+  <div class="page-title">Heir Invite</div>
+  <div class="page-subtitle">
+    You have been invited as a trusted heir for <strong>{{ family_member.owner.username }}</strong>
+    ({{ family_member.name }} – {{ family_member.relation }}).
+  </div>
+</div>
+
+<div class="card p-4">
+  {% if request.user.is_authenticated and mode == "link_existing" %}
+    <p class="page-subtitle mb-3">
+      You are currently logged in as <strong>{{ request.user.username }}</strong>.
+      Click below to link this invite to your account.
+    </p>
+    <form method="POST">
+      {% csrf_token %}
+      <button class="btn btn-cocoa big-action" type="submit">
+        Link this invite to my account
+      </button>
+      <a href="{% url 'heir_portal' %}" class="btn btn-warm big-action ms-2">
+        Go to Heir Portal
+      </a>
+    </form>
+  {% else %}
+    <p class="page-subtitle mb-3">
+      Create your LegacyVault account to claim this invite and view any messages that are
+      released for you in the future.
+    </p>
+    <form method="POST" class="row g-3">
+      {% csrf_token %}
+      <div class="col-md-6">
+        <label class="fw-bold mb-1">Username</label>
+        <input type="text" name="username" class="form-control soft-input" required>
+      </div>
+      <div class="col-md-6">
+        <label class="fw-bold mb-1">Email (optional)</label>
+        <input type="email" name="email" class="form-control soft-input">
+      </div>
+      <div class="col-md-6">
+        <label class="fw-bold mb-1">Password</label>
+        <input type="password" name="password1" class="form-control soft-input" required>
+      </div>
+      <div class="col-md-6">
+        <label class="fw-bold mb-1">Confirm Password</label>
+        <input type="password" name="password2" class="form-control soft-input" required>
+      </div>
+      <div class="col-12 mt-2">
+        <button class="btn btn-cocoa big-action" type="submit">
+          Create account &amp; claim invite
+        </button>
+      </div>
+    </form>
+  {% endif %}
+</div>
+
+{% endblock %}
+

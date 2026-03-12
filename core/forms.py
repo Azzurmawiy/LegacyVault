@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User
 from .models import Memory, Document, FamilyMember, Message, UserSwitchSettings
 from django.utils import timezone
 
@@ -30,6 +31,16 @@ class FamilyMemberForm(forms.ModelForm):
         }
 
 class MessageForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user", None)
+        super().__init__(*args, **kwargs)
+        # Limit recipient choices to users who have claimed a FamilyMember invite
+        # for this owner, so messages can only be sent to actual heirs.
+        if user is not None:
+            self.fields["recipient"].queryset = User.objects.filter(
+                claimed_family_profiles__owner=user
+            ).distinct()
+
     class Meta:
         model = Message
         fields = ['title', 'content', 'send_date', 'recipient']

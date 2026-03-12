@@ -2,24 +2,52 @@
 {% block content %}
 
 <div class="mb-3">
-  <div class="page-title">Released Legacy Messages</div>
+  <div class="page-title">Heir Portal</div>
   <div class="page-subtitle">
-    Messages available for {{ recipient.username }}.
+    Released messages that have been entrusted to you as <strong>{{ recipient.username }}</strong>.
   </div>
 </div>
-<div class="card p-4">
-  {% for msg in messages_list %}
-    <div class="border rounded-4 p-3 mb-3">
-      <div class="fw-bold">{{ msg.title }}</div>
-      <div class="page-subtitle mb-2">
-        Released on: {{ msg.send_date }}
-      </div>
-      <div>{{ msg.content }}</div>
+
+<div class="row g-4">
+  <div class="col-lg-8">
+    <div class="card p-4">
+      <h5 class="mb-3">Released Legacy Messages</h5>
+      {% for msg in messages_list %}
+        <div class="border rounded-4 p-3 mb-3">
+          <div class="fw-bold">{{ msg.title }}</div>
+          <div class="page-subtitle mb-2">
+            From: {{ msg.owner.username }} · Released on: {{ msg.send_date }}
+          </div>
+          <div>{{ msg.content }}</div>
+        </div>
+      {% empty %}
+        <div class="page-subtitle">
+          No released messages available yet.
+        </div>
+      {% endfor %}
     </div>
-  {% empty %}
-    <div class="page-subtitle">
-      No released messages available yet.
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card p-4">
+      <h5 class="mb-3">Your Invites</h5>
+      {% if my_invites %}
+        <ul class="list-unstyled mb-0">
+          {% for invite in my_invites %}
+            <li class="mb-2">
+              <div class="fw-bold">{{ invite.owner.username }}</div>
+              <div class="page-subtitle">
+                {{ invite.name }} – {{ invite.relation }}
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <div class="page-subtitle">
+          You don't have any active heir invites linked to your account yet.
+        </div>
+      {% endif %}
     </div>
-  {% endfor %}
+  </div>
 </div>
 {% endblock %}
