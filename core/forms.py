@@ -32,11 +32,12 @@ class FamilyMemberForm(forms.ModelForm):
 class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
-        fields = ['title', 'content', 'send_date']
+        fields = ['title', 'content', 'send_date', 'recipient']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control soft-input', 'placeholder': 'Message title'}),
             'content': forms.Textarea(attrs={'class': 'form-control soft-input', 'rows': 4, 'placeholder': 'Write your message...'}),
             'send_date': forms.DateTimeInput(attrs={'class': 'form-control soft-input', 'type': 'datetime-local'}),
+            'recipient': forms.Select(attrs={'class': 'form-control soft-input'}),
         }
 
     def clean_send_date(self):

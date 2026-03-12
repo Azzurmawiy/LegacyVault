@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Message Page</title>
-</head>
-<body>
-    <h1>Message Page</h1>
-     {% extends 'base.html' %}
+{% extends 'base.html' %}
 {% block content %}
 <div class="mb-3">
   <div class="page-title">Scheduled Messages</div>
@@ -23,7 +14,7 @@
         <div class="mb-3"></div>
         {{ form.content }}
         <div class="mb-3"></div>
-        {{ form.release_date }}
+        {{ form.send_date }}
         <div class="mb-3"></div>
         {{ form.recipient }}
         <div class="mb-3"></div>
@@ -37,7 +28,7 @@
       {% for msg in scheduled %}
         <div class="border rounded-4 p-3 mb-3">
           <div class="fw-bold">{{ msg.title }}</div>
-          <div class="page-subtitle">Releases: {{ msg.release_date }}</div>
+          <div class="page-subtitle">Releases: {{ msg.send_date }}</div>
         </div>
       {% empty %}
         <div class="page-subtitle">No scheduled messages.</div>
@@ -57,7 +48,3 @@
   </div>
 </div>
 {% endblock %}
-
-<a href="/">Back Home</a>
-</body>
-</html>
