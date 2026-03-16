@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.dateparse import parse_datetime
 from django.contrib import messages
@@ -62,7 +61,6 @@ def documents(request):
 
     documents = Document.objects.filter(owner=request.user).order_by('-uploaded_at')
     return render(request, "documents.html", {"form": form, "documents": documents})
-@login_required
 def document_delete(request, pk):
     doc = get_object_or_404(Document, pk=pk, owner=request.user)
 
@@ -97,7 +95,6 @@ def message(request):
     released = [m for m in messages_qs if m.is_released]
     return render(request, "message.html", {"form": form, "scheduled": scheduled, "released": released})
 
-@login_required
 def family(request):
     if request.method == "POST":
        form = FamilyMemberForm(request.POST)
@@ -111,66 +108,6 @@ def family(request):
         form = FamilyMemberForm()
     members = FamilyMember.objects.filter(owner=request.user).order_by("name")
     return render(request, "family.html", {"form": form, "members": members})
-
-
-@login_required
-def export_data(request):
-    """
-    Simple JSON export of the current user's data
-    (memories, documents metadata, messages, and family members).
-    """
-    user = request.user
-
-    memories = list(
-        Memory.objects.filter(owner=user)
-        .order_by("-created_at")
-        .values("id", "title", "description", "created_at")
-    )
-    documents = list(
-        Document.objects.filter(owner=user)
-        .order_by("-uploaded_at")
-        .values("id", "title", "file", "uploaded_at")
-    )
-    messages_qs = list(
-        Message.objects.filter(owner=user)
-        .order_by("-send_date")
-        .values(
-            "id",
-            "title",
-            "content",
-            "send_date",
-            "is_released",
-            "created_at",
-            "recipient_id",
-        )
-    )
-    family = list(
-        FamilyMember.objects.filter(owner=user)
-        .order_by("name")
-        .values(
-            "id",
-            "name",
-            "relation",
-            "email",
-            "claimed_user_id",
-            "created_at",
-            "is_active",
-        )
-    )
-
-    payload = {
-        "user": {
-            "id": user.id,
-            "username": user.username,
-            "email": user.email,
-        },
-        "memories": memories,
-        "documents": documents,
-        "messages": messages_qs,
-        "family": family,
-    }
-
-    return JsonResponse(payload, json_dumps_params={"indent": 2})
 @login_required
 def memory_update(request, pk):
     memory = get_object_or_404(Memory, pk=pk, owner=request.user)

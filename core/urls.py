@@ -13,5 +13,4 @@ urlpatterns = [
     path('switch-settings/', views.switch_settings, name='switch_settings'),
     path('heir/', views.heir_portal, name='heir_portal'),
     path('heir/invite/<uuid:token>/', views.heir_claim, name='heir_claim'),
-    path('export/', views.export_data, name='export_data'),
 ]
