@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign In • LegacyVault</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #FBF6EE;
+      --brown: #5A3E2B;
+      --brown-2: #7A5236;
+      --accent: #C49A6C;
+      --border: #E8DCCB;
+      --muted: #6B5B4B;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--brown);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', system-ui, sans-serif;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative blobs */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::before {
+      width: 400px; height: 400px;
+      background: #C49A6C;
+      top: -120px; left: -120px;
+    }
+    body::after {
+      width: 350px; height: 350px;
+      background: #5A3E2B;
+      bottom: -100px; right: -100px;
+    }
+
+    .login-card {
+      position: relative;
+      z-index: 1;
+      width: min(460px, 100%);
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(90, 62, 43, 0.14);
+      padding: 40px 36px;
+      animation: fadeUp 0.4s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .brand-logo {
+      font-size: 38px;
+      line-height: 1;
+    }
+
+    .brand-name {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--brown);
+      letter-spacing: -0.5px;
+    }
+
+    .brand-tagline {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .divider {
+      border-top: 1px solid var(--border);
+      margin: 24px 0;
+    }
+
+    .form-label {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--brown);
+      margin-bottom: 6px;
+    }
+
+    .form-control {
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      padding: 12px 14px;
+      font-size: 15px;
+      color: var(--brown);
+      background: #FDFAF6;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-control:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(196, 154, 108, 0.18);
+      background: #fff;
+      outline: none;
+    }
+
+    .btn-login {
+      background: linear-gradient(135deg, var(--brown-2), var(--brown));
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      width: 100%;
+      letter-spacing: 0.2px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(90, 62, 43, 0.22);
+      color: #fff;
+    }
+    .btn-login:active { transform: translateY(0); }
+
+    .footer-link {
+      font-size: 14px;
+      color: var(--muted);
+      text-align: center;
+    }
+    .footer-link a {
+      color: var(--brown-2);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .footer-link a:hover { text-decoration: underline; }
+
+    .alert-danger {
+      border-radius: 12px;
+      font-size: 14px;
+      padding: 10px 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="login-card">
+
+    <!-- Brand Header -->
+    <div class="text-center mb-4">
+      <div class="brand-logo">🕊️</div>
+      <div class="brand-name">LegacyVault</div>
+      <div class="brand-tagline">Preserve what matters most.</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Error messages -->
+    {% if form.errors %}
+      <div class="alert alert-danger mb-3">
+        Invalid username or password. Please try again.
+      </div>
+    {% endif %}
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-danger mb-3">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <!-- Login Form -->
+    <form method="POST" action="">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      <div class="mb-3">
+        <label class="form-label" for="id_login">Username</label>
+        <input
+          type="text"
+          class="form-control"
+          id="id_login"
+          name="login"
+          placeholder="Enter your username"
+          autocomplete="username"
+          required
+        >
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label" for="id_password">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="id_password"
+          name="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+          required
+        >
+      </div>
+
+      {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+      {% endif %}
+
+      <button class="btn-login" type="submit">Sign In</button>
+    </form>
+
+    <div class="divider"></div>
+
+    <div class="footer-link">
+      New here? <a href="{% url 'account_signup' %}">Create an account</a>
+    </div>
+
+  </div>
+</body>
+</html>

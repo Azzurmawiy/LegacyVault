@@ -1,23 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-</head>
-<body>
-    <h1>Welcome to Legacy Vault</h1>
-    {% extends 'base.html' %}
+{% extends 'base.html' %}
 {% block content %}
-<div class="mb-3">
+
+<div class="mb-3 fade-up">
   <div class="page-title">Dashboard</div>
   <div class="page-subtitle">Quick overview of your LegacyVault.</div>
 </div>
 
-<!-- Quick actions row -->
-<div class="card p-4 mb-4">
-  <h4 class="mb-2">Quick Actions</h4>
-  <div class="page-subtitle mb-3">One-tap actions for fast use.</div>
+<!-- Stats row -->
+<div class="row g-3 mb-4 fade-up">
+  <div class="col-md-3">
+    <div class="card p-4 hover-lift">
+      <div class="page-subtitle">Memories</div>
+      <div style="font-size: 34px; font-weight: 800;">{{ memories_count }}</div>
+      <a class="btn btn-warm mt-2" href="/memory/">Open</a>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card p-4 hover-lift">
+      <div class="page-subtitle">Documents</div>
+      <div style="font-size: 34px; font-weight: 800;">{{ documents_count }}</div>
+      <a class="btn btn-warm mt-2" href="/documents/">Open</a>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card p-4 hover-lift">
+      <div class="page-subtitle">Family</div>
+      <div style="font-size: 34px; font-weight: 800;">{{ family_count }}</div>
+      <div class="page-subtitle mt-1" style="font-size: 13px;">Linked heirs: {{ linked_heirs_count }}</div>
+      <a class="btn btn-warm mt-2" href="/family/">Open</a>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card p-4 hover-lift">
+      <div class="page-subtitle">Messages</div>
+      <div style="font-size: 20px; font-weight: 800;">
+        <div>Scheduled: {{ scheduled_count }}</div>
+        <div>Released: {{ released_count }}</div>
+      </div>
+      <a class="btn btn-warm mt-2" href="/message/">Open</a>
+    </div>
+  </div>
+</div>
+
+<!-- Quick actions -->
+<div class="card p-4 mb-4 fade-up">
+  <h4 class="mb-1">Quick Actions</h4>
+  <div class="page-subtitle mb-3">One-tap access to key features.</div>
   <div class="row g-3">
     <div class="col-md-3">
       <a class="btn btn-cocoa w-100 big-action" href="/memory/">➕ Add Memory</a>
@@ -34,90 +62,31 @@
   </div>
 </div>
 
-<!-- Help / Tips panel -->
-<div class="card p-4">
-  <h4 class="mb-2">Help</h4>
-  <div class="page-subtitle">
-    <ul class="mb-0">
-      <li><b>Memories</b>: Write stories you want your family to remember.</li>
-      <li><b>Documents</b>: Store important files like IDs, certificates, land papers.</li>
-      <li><b>Messages</b>: Schedule messages for future dates.</li>
-      <li><b>Family</b>: Add the people you trust.</li>
-    </ul>
-  </div>
-</div>
-  
-<div class="row g-3 mb-4">
-  <div class="col-md-3">
-    <div class="card p-4">
-      <div class="page-subtitle">Memories</div>
-      <div style="font-size: 34px; font-weight: 800;">{{ memories_count }}</div>
-      <a class="btn btn-warm mt-2" href="/memory/">Open</a>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="card p-4">
-      <div class="page-subtitle">Documents</div>
-      <div style="font-size: 34px; font-weight: 800;">{{ documents_count }}</div>
-      <a class="btn btn-warm mt-2" href="/documents/">Open</a>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="card p-4">
-      <div class="page-subtitle">Family</div>
-      <div style="font-size: 34px; font-weight: 800;">{{ family_count }}</div>
-      <div class="page-subtitle mt-1" style="font-size: 14px;">
-        Linked heirs: {{ linked_heirs_count }}
-      </div>
-      <a class="btn btn-warm mt-2" href="/family/">Open</a>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="card p-4">
-      <div class="page-subtitle">Messages</div>
-      <div style="font-size: 20px; font-weight: 800;">
-        <div>Scheduled: {{ scheduled_count }}</div>
-        <div>Released: {{ released_count }}</div>
-      </div>
-      <a class="btn btn-warm mt-2" href="/message/">Open</a>
-    </div>
-  </div>
-</div>
-<div class="mb-4 text-center">
-  <div class="page-title">Keep your story alive.</div>
-  <div class="page-subtitle">Store memories, protect documents, and leave messages for the people you love.</div>
-  <div class="mt-3">
-    <span class="pill">Warm • Simple • Family-first</span>
-  </div>
-</div>
-
-<div class="row g-4">
+<!-- Feature cards -->
+<div class="row g-4 mb-4 fade-up">
   <div class="col-md-6">
-    <div class="card p-4">
+    <div class="card p-4 hover-lift">
       <h4 class="mb-1">📖 Record a Memory</h4>
       <p class="page-subtitle mb-3">Write or save stories from your life journey.</p>
       <a href="/memory/" class="btn btn-cocoa big-action w-100">Go to Memories</a>
     </div>
   </div>
-
   <div class="col-md-6">
-    <div class="card p-4">
+    <div class="card p-4 hover-lift">
       <h4 class="mb-1">📁 Upload Documents</h4>
       <p class="page-subtitle mb-3">Keep important files safe and organized.</p>
       <a href="/documents/" class="btn btn-warm big-action w-100">Manage Documents</a>
     </div>
   </div>
-
   <div class="col-md-6">
-    <div class="card p-4">
+    <div class="card p-4 hover-lift">
       <h4 class="mb-1">✉️ Schedule a Message</h4>
       <p class="page-subtitle mb-3">Write messages for future dates and moments.</p>
       <a href="/message/" class="btn btn-cocoa big-action w-100">Create a Message</a>
     </div>
   </div>
-
   <div class="col-md-6">
-    <div class="card p-4">
+    <div class="card p-4 hover-lift">
       <h4 class="mb-1">👨‍👩‍👧 Manage Family</h4>
       <p class="page-subtitle mb-3">Choose who can see what — and when.</p>
       <a href="/family/" class="btn btn-warm big-action w-100">Family Access</a>
@@ -125,6 +94,15 @@
   </div>
 </div>
 
+<!-- Help -->
+<div class="card p-4 fade-up">
+  <h4 class="mb-2">Help</h4>
+  <ul class="page-subtitle mb-0">
+    <li><b>Memories</b>: Write stories you want your family to remember.</li>
+    <li><b>Documents</b>: Store important files like IDs, certificates, land papers.</li>
+    <li><b>Messages</b>: Schedule messages for future dates.</li>
+    <li><b>Family</b>: Add the people you trust.</li>
+  </ul>
+</div>
+
 {% endblock %}
-</body>
-</html>

@@ -1,60 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>memory_edit</title>
-</head>
-<body>
-    {% extends 'base.html' %}
+{% extends 'base.html' %}
 {% block content %}
 
-<div class="mb-3">
-  <div class="page-title">Memories</div>
-  <div class="page-subtitle">Small moments become a big legacy.</div>
+<div class="mb-3 fade-up">
+  <div class="page-title">Edit Memory</div>
+  <div class="page-subtitle">Update your memory below.</div>
 </div>
 
-<div class="row g-4">
-  <div class="col-lg-5">
+<div class="row g-4 fade-up">
+  <div class="col-lg-6 mx-auto">
     <div class="card p-4">
-      <h5 class="mb-3">Add New Memory</h5>
+      <h5 class="mb-3">✏️ {{ memory.title }}</h5>
       <form method="POST">
         {% csrf_token %}
         {{ form.title }}
         <div class="mb-3"></div>
         {{ form.description }}
         <div class="mb-3"></div>
-        <button class="btn btn-cocoa w-100 big-action" type="submit">Save Memory</button>
+        <div class="d-flex gap-2">
+          <button class="btn btn-cocoa w-100 big-action" type="submit">Save Changes</button>
+          <a class="btn btn-warm w-100 big-action" href="{% url 'memory' %}">Cancel</a>
+        </div>
       </form>
-    </div>
-  </div>
-
-  <div class="col-lg-7">
-    <div class="card p-4">
-      <div class="d-flex justify-content-between align-items-center mb-2">
-        <h5 class="mb-0">Saved Memories</h5>
-        <span class="pill">{{ memories|length }} items</span>
-      </div>
-
-      <div class="mt-3">
-        {% for memory in memories %}
-          <div class="border rounded-4 p-3 mb-3" style="border-color: var(--border); background:#FFF;">
-            <div class="fw-bold">{{ memory.title }}</div>
-            <div class="page-subtitle mb-2">{{ memory.description }}</div>
-
-            <div class="d-flex gap-2">
-              <a class="btn btn-sm btn-warm" href="{% url 'memory_edit' memory.pk %}">Edit</a>
-              <a class="btn btn-sm btn-cocoa" href="{% url 'memory_delete' memory.pk %}">Delete</a>
-            </div>
-          </div>
-        {% empty %}
-          <div class="page-subtitle">No memories yet. Add your first one.</div>
-        {% endfor %}
-      </div>
     </div>
   </div>
 </div>
 
 {% endblock %}
-</body>
-</html>

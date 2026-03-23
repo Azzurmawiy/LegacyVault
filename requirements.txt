@@ -4,5 +4,6 @@ django-allauth==65.15.0
 django-axes==8.3.1
 django-cleanup==9.0.0
 django-environ==0.13.0
+psycopg2-binary==2.9.11
 sqlparse==0.5.5
 tzdata==2025.3
