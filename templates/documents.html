@@ -50,6 +50,26 @@
           <div class="page-subtitle">No documents yet. Upload one on the left.</div>
         {% endfor %}
       </div>
+      
+      <!-- Pagination Controls -->
+      <div class="mt-4 d-flex justify-content-center">
+        <span class="step-links">
+            {% if documents.has_previous %}
+                <a href="?page=1" class="btn btn-sm btn-outline-secondary">&laquo; first</a>
+                <a href="?page={{ documents.previous_page_number }}" class="btn btn-sm btn-outline-secondary">previous</a>
+            {% endif %}
+
+            <span class="current fw-bold mx-2">
+                Page {{ documents.number }} of {{ documents.paginator.num_pages }}.
+            </span>
+
+            {% if documents.has_next %}
+                <a href="?page={{ documents.next_page_number }}" class="btn btn-sm btn-outline-secondary">next</a>
+                <a href="?page={{ documents.paginator.num_pages }}" class="btn btn-sm btn-outline-secondary">last &raquo;</a>
+            {% endif %}
+        </span>
+      </div>
+
     </div>
   </div>
 </div>

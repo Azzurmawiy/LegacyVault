@@ -3,12 +3,12 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.dateparse import parse_datetime
+from django.core.paginator import Paginator
 from django.contrib import messages
 from .models import Memory, Document, Message, FamilyMember, UserSwitchSettings
 from .forms import MemoryForm, DocumentForm, FamilyMemberForm, MessageForm, UserSwitchSettingsForm
 from django.conf import settings
 from django.utils import timezone
-import os
 
 @login_required
 def home(request):
@@ -44,7 +44,10 @@ def memory_list_create(request):
     else:
         form = MemoryForm()
 
-    memories = Memory.objects.filter(owner=request.user).order_by('-created_at')
+    memories_qs = Memory.objects.filter(owner=request.user).order_by('-created_at')
+    paginator = Paginator(memories_qs, 10)
+    page_number = request.GET.get('page')
+    memories = paginator.get_page(page_number)
     return render(request, 'memory.html', {'form': form, 'memories': memories})
 
 @login_required
@@ -59,16 +62,15 @@ def documents(request):
     else:
         form = DocumentForm()
 
-    documents = Document.objects.filter(owner=request.user).order_by('-uploaded_at')
+    docs_qs = Document.objects.filter(owner=request.user).order_by('-uploaded_at')
+    paginator = Paginator(docs_qs, 10)
+    page_number = request.GET.get('page')
+    documents = paginator.get_page(page_number)
     return render(request, "documents.html", {"form": form, "documents": documents})
 def document_delete(request, pk):
     doc = get_object_or_404(Document, pk=pk, owner=request.user)
 
     if request.method == "POST":
-        #delete file from media folder
-        if doc.file and os.path.isfile(doc.file.path):
-            os.remove(doc.file.path)
-
         doc.delete()
         return redirect("documents")
     
