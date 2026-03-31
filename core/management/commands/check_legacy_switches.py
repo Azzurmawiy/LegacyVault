@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 from datetime import timedelta
 from core.models import UserSwitchSettings, Message
+from django_q.tasks import async_task
 import logging
 
 logger = logging.getLogger(__name__)
@@ -47,7 +48,14 @@ class Command(BaseCommand):
                         is_released=False,
                         send_date__lte=now
                     )
-                    released_count = messages_to_release.update(is_released=True)
+                    
+                    for msg in messages_to_release:
+                        msg.is_released = True
+                        msg.save()
+                        # Enqueue the email task
+                        async_task('core.tasks.send_released_message_email', msg.id)
+                    
+                    released_count = messages_to_release.count()
                     
                     self.stdout.write(self.style.ERROR(f"Switch for {switch.user.username} moved to RELEASED. {released_count} messages released."))
 
