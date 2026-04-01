@@ -2,6 +2,15 @@ from pathlib import Path
 from django.conf import settings
 from django.utils import timezone
 import environ
+import dj_database_url
+import os
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL', 'sqlite:///db.sqlite3'),
+        conn_max_age=600
+    )
+}
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -103,4 +112,4 @@ Q_CLUSTER = {
     'queue_limit': 500,
     'label': 'Django Q',
     'orm': 'default'
-}
+}
