@@ -213,7 +213,7 @@
       </div>
 
       {% if redirect_field_value %}
-        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+        <input type="hidden" name="csrfmiddlewaretoken" value="...">
       {% endif %}
 
       <button class="btn-login" type="submit">Sign In</button>
