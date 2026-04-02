@@ -1,0 +1,2 @@
+[build]
+cmd = "python manage.py collectstatic --noinput"
