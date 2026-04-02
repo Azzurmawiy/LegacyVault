@@ -113,3 +113,7 @@ Q_CLUSTER = {
     'label': 'Django Q',
     'orm': 'default'
 }
+
+CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
