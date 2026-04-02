@@ -1,2 +1,1 @@
-[build]
-cmd = "python manage.py collectstatic --noinput"
+# Build is handled by Dockerfile; railpack.toml is kept for reference only.
